@@ -1,0 +1,35 @@
+services:
+  mock-upstream:
+    build: .
+    command: ["uvicorn", "api_bridge.mock_upstream:app", "--host", "0.0.0.0", "--port", "8081"]
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/healthz', timeout=1)"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+
+  api-bridge:
+    build: .
+    depends_on:
+      mock-upstream:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      UPSTREAM_BASE_URL: http://mock-upstream:8081
+    ports:
+      - "8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

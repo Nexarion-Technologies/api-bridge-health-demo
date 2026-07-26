@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-07-26T22:26:44+00:00",
+  "healthz": {
+    "ok": true,
+    "service": "api-bridge-health-demo",
+    "version": "1.0.0"
+  },
+  "readyz": {
+    "ok": true,
+    "service": "api-bridge-health-demo",
+    "token_configured": true,
+    "upstream": {
+      "ok": true,
+      "service": "synthetic-evidence-upstream",
+      "version": "1.0.0"
+    },
+    "read_only": true
+  },
+  "version": {
+    "ok": true,
+    "service": "api-bridge-health-demo",
+    "version": "1.0.0",
+    "release_id": "public-demo-v1.0.0",
+    "git_commit": "unknown",
+    "contract": "synthetic-readonly-bridge-v1"
+  },
+  "schema": {
+    "ok": true,
+    "contract": "synthetic-readonly-bridge-v1",
+    "read_only": true,
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/healthz",
+        "protected": false
+      },
+      {
+        "method": "GET",
+        "path": "/version",
+        "protected": false
+      },
+      {
+        "method": "GET",
+        "path": "/readyz",
+        "protected": true
+      },
+      {
+        "method": "GET",
+        "path": "/schema",
+        "protected": true
+      },
+      {
+        "method": "POST",
+        "path": "/v1/context/summary",
+        "protected": true,
+        "read_oriented": true
+      },
+      {
+        "method": "GET",
+        "path": "/metrics",
+        "protected": false
+      }
+    ],
+    "bounds": {
+      "query_chars": 300,
+      "limit": 10,
+      "response_bytes": 65536
+    }
+  },
+  "context_summary": {
+    "ok": true,
+    "trace_id": "trace-evidence-001",
+    "service": "api-bridge-health-demo",
+    "query": "readiness evidence",
+    "bounded": true,
+    "row_count": 1,
+    "sources": [
+      {
+        "source_id": "src_bridge_001",
+        "source_uri": "synthetic://upstream/src_bridge_001",
+        "source_revision": "rev-4",
+        "title": "Synthetic readiness record",
+        "snippet": "Readiness passed for the synthetic upstream. Evidence is bounded and read-only.",
+        "content_hash": "9140f1dabfe75dc52686008e9f4a16bb3cac5558d7d4bb10708d4df19d15ac90",
+        "classification": "internal"
+      }
+    ],
+    "read_only": true,
+    "synthetic": true,
+    "untrusted_upstream_output": true
+  }
+}
